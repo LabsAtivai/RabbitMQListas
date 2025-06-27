@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "Extração de E-mails",
+    "description": "Extensão para extrair e-mails do Gmail usando OAuth",
+    "version": "1.0",
+    "permissions": [
+      "identity", 
+      "identity.email", 
+      "storage", 
+      "downloads", 
+      "scripting", 
+      "activeTab"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "icon.png"
+    },
+    "oauth2": {
+      "client_id": "893178375513-fcqjbusn1lp1q3soctq2bl3s3m03eed7.apps.googleusercontent.com",
+        "scopes": ["https://www.googleapis.com/auth/gmail.readonly"]
+    },
+    "icons": {
+      "128": "icon.png"
+    }
+  }
+  

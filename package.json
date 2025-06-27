@@ -1,0 +1,18 @@
+{
+    "type": "module",
+    "scripts": {
+        "start": "node server.mjs",
+        "campanha": "nodemon relatoriocampanha1.mjs",
+        "mensagem": "nodemon rabbit.mjs",
+        "listas": "nodemon relatorioListasv2.mjs"
+    },
+    "dependencies": {
+        "amqplib": "^0.10.8",
+        "axios": "^1.9.0",
+        "express": "^4.21.2",
+        "googleapis": "^148.0.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.10"
+    }
+}
