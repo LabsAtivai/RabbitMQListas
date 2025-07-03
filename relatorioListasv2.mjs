@@ -72,6 +72,7 @@ async function sendToFila(message) {
   await connection.close();
 }
 
+let totalData = [];
 async function main() {
 
   const auth = await google.auth.getClient({
@@ -89,17 +90,9 @@ async function main() {
     await Promise.all(batch.map(async client => {
       async function rodar() {
         const accessToken = await getAccessToken(client.clientId, client.clientSecret);
-        await Promise.all(
-          campaigsWithoutEmail
-            .filter(c => c.email === client.email)
-            .map(campaign => sendToFila({
-              accessToken,
-              campaign,
-              client,
-              clientId: client.clientId,
-              clientSecret: client.clientSecret
-            }))
-        );
+
+
+        totalData = [...totalData, ...campaigsWithoutEmail.filter(c => c.email === client.email).map(c => ({ ...c, accessToken, client }))];
       }
 
       while (true) {
@@ -122,7 +115,16 @@ async function main() {
     console.log(`Batch de ${batch.length} enviado. Aguardando 60 segundos...`);
     if (i + batchSize < clients.length) await sleep(60000);
   }
-
+  await Promise.all(
+    totalData
+      .map(campaign => sendToFila({
+        accessToken: campaign.accessToken,
+        campaign,
+        client: campaign.client,
+        clientId: campaign.client.clientId,
+        clientSecret: campaign.client.clientSecret
+      }))
+  );
   console.log("✅ Todos os clientes processados!");
 }
 
